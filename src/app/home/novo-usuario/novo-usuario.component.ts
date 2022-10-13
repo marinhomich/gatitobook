@@ -1,23 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { minusculoValidator } from './minusculo.validator';
 import { NovoUsuario } from './novo-usuario';
 import { NovoUsuarioService } from './novo-usuario.service';
-import { minusculoValidator } from './minusculo.validator';
 import { UsuarioExisteService } from './usuario-existe.service';
 import { usuarioSenhaIguaisValidator } from './usuario-senha-iguais.validator';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-novo-usuario',
   templateUrl: './novo-usuario.component.html',
-  styleUrls: ['./novo-usuario.component.scss'],
+  styleUrls: ['./novo-usuario.component.css'],
 })
 export class NovoUsuarioComponent implements OnInit {
   novoUsuarioForm!: FormGroup;
+
   constructor(
     private formBuilder: FormBuilder,
     private novoUsuarioService: NovoUsuarioService,
-    private usuarioExistenteService: UsuarioExisteService,
+    private usuarioExistenteServive: UsuarioExisteService,
     private router: Router
   ) {}
 
@@ -29,7 +30,7 @@ export class NovoUsuarioComponent implements OnInit {
         userName: [
           '',
           [minusculoValidator],
-          [this.usuarioExistenteService.usuarioJaExiste()],
+          [this.usuarioExistenteServive.usuarioJaExite()],
         ],
         password: [''],
       },
@@ -46,7 +47,9 @@ export class NovoUsuarioComponent implements OnInit {
         () => {
           this.router.navigate(['']);
         },
-        (error) => console.log(error)
+        (error) => {
+          console.log(error);
+        }
       );
     }
   }
